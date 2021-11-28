@@ -24,7 +24,7 @@ func (u *userRepo) FindUserByUserName(username string, preload bool) (*models.Us
 	db := GormDB()
 	user := &models.User{}
 	if preload {
-		if res := db.Preload("Bitcoin").Preload("Wallet").Find(&user); res.Error != nil {
+		if res := db.Preload("Bitcoin").Preload("Wallet").Where("user_name", username).Find(&user); res.Error != nil {
 			return nil, res.Error
 		}
 	} else {

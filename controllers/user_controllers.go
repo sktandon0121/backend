@@ -60,8 +60,7 @@ func Login(rw http.ResponseWriter, r *http.Request) {
 func Validate(rw http.ResponseWriter, r *http.Request) {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		data := models.ErrorResponse{Message: err.Error()}
-		WriteJsonData(rw, data, 400)
+		WriteJsonData(rw, errorRes.BadRequest(err, err.Error()), 400)
 		return
 	}
 
