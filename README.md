@@ -1,2 +1,2 @@
 # backend
-Inspirit bitcoin app
+bitcoin app
