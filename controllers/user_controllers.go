@@ -80,8 +80,11 @@ func Validate(rw http.ResponseWriter, r *http.Request) {
 }
 
 func Buy(rw http.ResponseWriter, r *http.Request) {
-	data := make(map[string]string, 0)
-	data["name"] = "Subodh"
+	data := struct {
+		Name   string
+		UserId int
+	}{Name: "Subodh", UserId: utils.GetUserFromContext(r.Context())}
+
 	WriteJsonData(rw, data, 200)
 }
 

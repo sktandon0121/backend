@@ -20,6 +20,16 @@ func (m *midSvc) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.Ha
 		WriteJsonData(rw, errorRes.AccessDenied(err, "Access denied"), 401)
 		return
 	}
+
+	// Get data from the token
+	data, err1 := utils.GetTokenMetadata(token)
+	if err != nil {
+		WriteJsonData(rw, errorRes.AccessDenied(err1, "Access denied"), 401)
+		return
+	}
+	// set user id to request context
+	ctx := utils.AddDataToContext(r.Context(), data, token)
+	r = r.WithContext(ctx)
 	if isValid {
 		next(rw, r)
 	} else {

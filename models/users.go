@@ -1,5 +1,9 @@
 package models
 
+import (
+	"github.com/dgrijalva/jwt-go"
+)
+
 type User struct {
 	Id       int      `json:"id"`
 	UserName string   `json:"username"`
@@ -39,4 +43,10 @@ type LoginResponse struct {
 
 type ValidateToken struct {
 	Token string `json:"token"`
+}
+
+type Claim struct {
+	Authorized bool `json:"authorized"`
+	UserId     int  `json:"userId"`
+	jwt.StandardClaims
 }

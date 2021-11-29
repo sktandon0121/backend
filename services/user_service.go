@@ -86,8 +86,19 @@ func (uSvc *userSvc) Validate(token *models.ValidateToken) (bool, error) {
 	return isValid, nil
 }
 
-func (uSvc *userSvc) Buy() {
+func (uSvc *userSvc) Buy() (*models.User, error) {
+	// data := struct{
+	// 	CurrentPrice float64
+	// 	Amount float64
+	// 	}{CurrentPrice: 300, Amount: 100}
 
+	// userDetails := uSvc.userRepo.FindUserByUserId(userId)
+	// balanceUsed := data.Amount * data.CurrentPrice
+	// remainingBalance :=
+	user := &models.User{
+		Bitcoin: &models.Bitcoin{},
+	}
+	return uSvc.userRepo.UpdateUser(user)
 }
 
 func (uSvc *userSvc) Sell() {
