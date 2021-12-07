@@ -1,7 +1,9 @@
 package services
 
 import (
+	"context"
 	"errors"
+	"log"
 	"strings"
 
 	"github.com/sktandon0121/backend/models"
@@ -14,6 +16,7 @@ type UserService interface {
 	SignUp(data models.Signup) (*models.User, error)
 	Login(loginCred *models.LoginCredentials) (*models.LoginResponse, error)
 	Validate(token *models.ValidateToken) (bool, error)
+	Buy(ctx context.Context) (*models.User, error)
 }
 
 type userSvc struct {
@@ -35,7 +38,7 @@ func (uSvc *userSvc) SignUp(data models.Signup) (*models.User, error) {
 		return nil, err
 	}
 
-	wallet := &models.Wallet{Value: 5000000}
+	wallet := &models.Wallet{Value: 500000}
 	bitcoin := &models.Bitcoin{}
 	user := &models.User{
 		UserName: data.UserName,
@@ -86,7 +89,7 @@ func (uSvc *userSvc) Validate(token *models.ValidateToken) (bool, error) {
 	return isValid, nil
 }
 
-func (uSvc *userSvc) Buy() (*models.User, error) {
+func (uSvc *userSvc) Buy(ctx context.Context) (*models.User, error) {
 	// data := struct{
 	// 	CurrentPrice float64
 	// 	Amount float64
@@ -95,10 +98,14 @@ func (uSvc *userSvc) Buy() (*models.User, error) {
 	// userDetails := uSvc.userRepo.FindUserByUserId(userId)
 	// balanceUsed := data.Amount * data.CurrentPrice
 	// remainingBalance :=
-	user := &models.User{
-		Bitcoin: &models.Bitcoin{},
+	userId := utils.GetUserFromContext(ctx)
+
+	walletValue := 490000
+	err := uSvc.userRepo.UpdateWallet(userId, float64(walletValue))
+	if err != nil {
+		log.Println("Error in updating the wallet ", err)
 	}
-	return uSvc.userRepo.UpdateUser(user)
+	return uSvc.userRepo.FindUserByUserId(userId)
 }
 
 func (uSvc *userSvc) Sell() {

@@ -80,11 +80,11 @@ func Validate(rw http.ResponseWriter, r *http.Request) {
 }
 
 func Buy(rw http.ResponseWriter, r *http.Request) {
-	data := struct {
-		Name   string
-		UserId int
-	}{Name: "Subodh", UserId: utils.GetUserFromContext(r.Context())}
-
+	data, err := userService.Buy(r.Context())
+	if err != nil {
+		WriteJsonData(rw, errorRes.InternalServerError(err, err.Error()), 500)
+		return
+	}
 	WriteJsonData(rw, data, 200)
 }
 

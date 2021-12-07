@@ -1,12 +1,17 @@
 package repo
 
-import "github.com/sktandon0121/backend/models"
+import (
+	"log"
+
+	"github.com/sktandon0121/backend/models"
+)
 
 type UserRepo interface {
 	SaveUser(user *models.User) (*models.User, error)
 	FindUserByUserName(username string, preload bool) (*models.User, error)
 	UpdateUser(user *models.User) (*models.User, error)
 	FindUserByUserId(userId int) (*models.User, error)
+	UpdateWallet(userId int, wallet float64) error
 }
 type userRepo struct{}
 
@@ -49,10 +54,20 @@ func (u *userRepo) UpdateUser(user *models.User) (*models.User, error) {
 func (u *userRepo) FindUserByUserId(userId int) (*models.User, error) {
 	db := GormDB()
 	var user *models.User
-	result := db.Preload("Bitcoin").Preload("Wallet").Where("id", userId).Find(user)
+	result := db.Preload("Bitcoin").Preload("Wallet").Where("id", userId).Find(&user)
 
 	if result.Error != nil {
+		log.Print("Error in getting user by id ", result.Error)
 		return user, result.Error
 	}
 	return user, nil
+}
+
+func (u *userRepo) UpdateWallet(userId int, wallet float64) error {
+	db := GormDB()
+	if err := db.Table("wallets").Where("user_id = ? ", userId).Update("value", wallet).Error; err != nil {
+		log.Printf("Error while updating the wallet : %#v", err)
+		return err
+	}
+	return nil
 }
