@@ -21,7 +21,7 @@ func NewRouter() *mux.Router {
 	buySubroute.Methods(http.MethodGet).HandlerFunc(Buy)
 	router.PathPrefix("/buy").Handler(authMid.With(negroni.Wrap(buySubroute)))
 
-	// subrouter for sell
+	// subrouter for sell coin
 	sellSubroute := mux.NewRouter().PathPrefix("/sell").Subrouter().StrictSlash(true)
 	sellSubroute.Methods(http.MethodGet).HandlerFunc(Sell)
 	router.PathPrefix("/sell").Handler(authMid.With(negroni.Wrap(sellSubroute)))
