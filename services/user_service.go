@@ -41,10 +41,11 @@ func (uSvc *userSvc) SignUp(data models.Signup) (*models.User, error) {
 	wallet := &models.Wallet{Value: 500000}
 	bitcoin := &models.Bitcoin{}
 	user := &models.User{
-		UserName: data.UserName,
-		Password: string(pass),
-		Wallet:   wallet,
-		Bitcoin:  bitcoin,
+		UserName:     data.UserName,
+		Password:     string(pass),
+		Wallet:       wallet,
+		Bitcoin:      bitcoin,
+		MobileNumber: data.MobileNumber,
 	}
 
 	// save to database

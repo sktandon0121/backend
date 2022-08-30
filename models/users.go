@@ -5,11 +5,12 @@ import (
 )
 
 type User struct {
-	Id       int      `json:"id"`
-	UserName string   `json:"username"`
-	Password string   `json:"password,omitempty"`
-	Wallet   *Wallet  `gorm:"foreignKey:UserId;references:Id" json:"wallet"`
-	Bitcoin  *Bitcoin `gorm:"foreignKey:UserId;references:Id" json:"bitcoin"`
+	Id           int      `json:"id"`
+	UserName     string   `json:"username"`
+	Password     string   `json:"password,omitempty"`
+	Wallet       *Wallet  `gorm:"foreignKey:UserId;references:Id" json:"wallet"`
+	Bitcoin      *Bitcoin `gorm:"foreignKey:UserId;references:Id" json:"bitcoin"`
+	MobileNumber string   `json:"mobileNnumber"`
 }
 
 type Wallet struct {
@@ -29,6 +30,7 @@ type Signup struct {
 	UserName        string `json:"username"`
 	Password        string `json:"password"`
 	ConfirmPassword string `json:"confirmPassword"`
+	MobileNumber    string `json:"mobileNumber"`
 }
 
 type LoginCredentials struct {

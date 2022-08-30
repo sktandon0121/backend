@@ -14,7 +14,7 @@ func GormDB() *gorm.DB {
 }
 
 func InitDBConnection() {
-	dsn := "root:@tcp(127.0.0.1:3306)/inspirit?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:Mysql@0121@tcp(127.0.0.1:3306)/inspirit?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
